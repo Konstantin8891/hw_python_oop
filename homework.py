@@ -77,24 +77,23 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    COEFF_CALORIE_1: int = 18
-    COEFF_CALORIE_2: int = 20
+    COEFF_DIST: int = 18
+    COEFF_SP_DIV_TIME: int = 20
 
     def get_spent_calories(self) -> float:
         return (
             (
-                self.COEFF_CALORIE_1 * super().get_mean_speed()
-                - self.COEFF_CALORIE_2
-            )
-            * self.weight / self.M_IN_KM
+                self.COEFF_DIST * super().get_mean_speed()
+                - self.COEFF_SP_DIV_TIME
+            ) * self.weight / self.M_IN_KM
             * self.duration * self.MIN_IN_HOUR
         )
 
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    COEFF_CALORIE_1: float = 0.035
-    COEFF_CALORIE_2: float = 0.029
+    COEFF_SP_DIV_TIME: float = 0.035
+    COEFF_DIST: float = 0.029
 
     def __init__(self,
                  action: int,
@@ -109,19 +108,18 @@ class SportsWalking(Training):
 
         return (
             (
-                self.COEFF_CALORIE_1 * self.weight
+                self.COEFF_SP_DIV_TIME * self.weight
                 + (super().get_mean_speed() ** 2 // self.height)
-                * self.COEFF_CALORIE_2 * self.weight
-            )
-            * self.duration * self.MIN_IN_HOUR
+                * self.COEFF_DIST * self.weight
+            ) * self.duration * self.MIN_IN_HOUR
         )
 
 
 class Swimming(Training):
     """Тренировка: плавание."""
     LEN_STEP: float = 1.38
-    COEFF_CALORIE_1: float = 1.1
-    COEFF_CALORIE_2: int = 2
+    COEFF_SPEED_CORR: float = 1.1
+    COEFF_SPEED: int = 2
 
     def __init__(self,
                  action: int,
@@ -141,8 +139,9 @@ class Swimming(Training):
 
     def get_spent_calories(self) -> float:
         return (
-            (self.get_mean_speed() + self.COEFF_CALORIE_1)
-            * self.COEFF_CALORIE_2 * self.weight
+            (
+                self.get_mean_speed() + self.COEFF_SPEED_CORR
+            ) * self.COEFF_SPEED * self.weight
         )
 
 
