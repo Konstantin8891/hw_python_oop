@@ -46,13 +46,10 @@ python -m pip install --upgrade pip
 
 pip install -r requirements.txt
 
-7. Make migrations
+7. Запускаем
 
-python manage.py migrate
+python homework.py
 
-8. Run project
-
-python manage.py runserver
 
 ## Задача
 Реализовать программный модуль по методологии ООП для расчёта и отображения информации
